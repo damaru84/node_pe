@@ -1,13 +1,14 @@
 console.log ("inicializando el programa");
-const url_API = "https://fakestore.api.com";
+const url_API = "https://fakestoreapi.com";
 const argumentos = process.argv.slice(2);
 const argumentos_validos = ["GET", "POST","PUT", "DELETE"];
 
 async function programa_principal(argumentos = []){
-    if(!argumentos[0] in argumentos_validos){
-        console.log ("comandos incorrectos");
-        break;
-    }
+    if (!argumentos_validos.includes(argumentos[0])) {
+    console.log("Comando incorrecto");
+    return;
+}
+
     switch(argumentos[0]){
 
 ///////////////////////////////////////////////////////////////////////////GET///////////////////////////////////////////////////////////////////////////
@@ -26,10 +27,10 @@ async function programa_principal(argumentos = []){
                         console.log(element)
                     });
                  
-                    break;
+                    return;
                 }catch(error){
                     console.log(error)
-                    break;
+                    return;
                 }
             } else if (argumentos[1].includes("/") && argumentos[1].includes("products")){
                 let id_sin_separar = argumentos[1].split("/")
@@ -40,7 +41,7 @@ async function programa_principal(argumentos = []){
                     })
                     if (response.status != 200){
                          throw new Error ("Error en la solicitud")
-                        break;
+                        return;
                     }
                     const data = await response.json()
                     console.log(data)
@@ -51,7 +52,7 @@ async function programa_principal(argumentos = []){
                 }
             }else{
                 console.log("comando incorrecto")
-                break;
+                return;
             }
 
 ///////////////////////////////////////////////////////////////////////////POST///////////////////////////////////////////////////////////////////////////
@@ -66,13 +67,14 @@ async function programa_principal(argumentos = []){
                 });
                 if(!response.ok){throw new Error("Error en la solicitud")};
                 const data = await response.json();
-                console.log(data);
+                console.log("Producto creado", data);
+                return;
                 } catch (error) {
                     console.log(error);
                 }
             }else{
                 console.log("Solicitud incompleta")
-                break;
+                return;
             }
 /////////////////////////////////////////////////////////////////////////// PUT ///////////////////////////////////////////////////////////////////////////
             case "PUT":
@@ -88,13 +90,13 @@ async function programa_principal(argumentos = []){
             });
             if (!response.ok) throw new Error("Error en la solicitud");
             const data = await response.json();
-            console.log("Producto actualizado:", data);
+            console.log(data);
             } catch (error) {
             console.log(error);
             }
         } else {
              console.log("Solicitud incompleta o incorrecta");
-            break;
+            return;
         }
          
 
@@ -104,19 +106,19 @@ async function programa_principal(argumentos = []){
                 let id_sin_separar = argumentos[1].split("/")
                 try{
                     const id = parseInt(id_sin_separar[1])
-                    const reponse = await fetch(`${url_API}/products/${id}`,{method: "DELETE"})
-                    if (!reponse.ok){throw new Error ("Error en la solicitud");
+                    const response = await fetch(`${url_API}/products/${id}`,{method: "DELETE"})
+                    if (!response.ok){throw new Error ("Error en la solicitud");
                     }
-                    const data = await reponse.json()
+                    const data = await response.json()
                     console.log(data)
-                    break;
+                    return;
                 }catch(error){
                     console.log(error)
                 }
             }else{
                 console.log("Solicitud incorrecta")
             }
-            break;
+            return;
     }
 }
 programa_principal(argumentos);
