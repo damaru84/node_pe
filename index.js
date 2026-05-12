@@ -31,11 +31,11 @@ async function programa_principal(argumentos = []){
                     console.log(error)
                     break;
                 }
-            } else if (argumentos[1].includes("/") && argumentos[1].icludes("products")){
+            } else if (argumentos[1].includes("/") && argumentos[1].includes("products")){
                 let id_sin_separar = argumentos[1].split("/")
                 try{
                     const id = parseInt(id_sin_separar[1])
-                    const reponse = await fetch(`${url_API}/products/${id}`,{
+                    const response = await fetch(`${url_API}/products/${id}`,{
                         method: "GET"
                     })
                     if (response.status != 200){
