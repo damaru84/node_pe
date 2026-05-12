@@ -13,7 +13,7 @@ async function programa_principal(argumentos = []){
 
 ///////////////////////////////////////////////////////////////////////////GET///////////////////////////////////////////////////////////////////////////
         case "GET": 
-            if (!argumentos[1].includes("/") && argumentos[1] == "productos"){
+            if (!argumentos[1].includes("/") && argumentos[1] == "products"){
                 try{
                     const response = await fetch (`${url_API}/products`, {
                         method: "GET"
@@ -63,7 +63,7 @@ async function programa_principal(argumentos = []){
                     const response = await fetch(`${url_API}/products`,{
                         method : "POST",
                         headers:  { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nombre, precio, categoria })
+                        body: JSON.stringify({ nombre, precio, categoria })
                 });
                 if(!response.ok){throw new Error("Error en la solicitud")};
                 const data = await response.json();
